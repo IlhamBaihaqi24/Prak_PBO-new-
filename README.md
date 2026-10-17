@@ -23,13 +23,6 @@ Prak PBO/
 └── SSAN - sesudah/         images-java/  images-php/
 ```
 
-Catatan:
-- `Prak 04` dan `Prak 07` memakai `src/java` dan `src/php`, sedangkan yang
-  lain langsung `java/` dan `php/`.
-- Nama folder mengandung spasi, jadi apit path dengan tanda kutip di terminal.
-- `Prak 07` belum punya pasangan di `codingansebelum` dan belum punya
-  screenshot di folder SSAN.
-
 ---
 
 ## 2. Yang Dibutuhkan
