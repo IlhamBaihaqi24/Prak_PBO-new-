@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Nama** | Muzaki Arifin |
-| **NPM** | 4525210051 |
+| **Nama** | Ilham Baihaqi |
+| **NPM** | 4525210029 |
 | **Kelas** | PBO A 2025/2026 |
 | **Dosen Pengampu** | Adi Wahyu Pribadi, S.Si., M.Kom |
 
@@ -11,42 +11,43 @@
 
 ## 1. Ringkasan Soal
 
-Sistem akademik menyimpan data mahasiswa berupa NIM, nama, serta tiga nilai (tugas, UTS, UAS). Aturan yang harus dijaga oleh kelas `Mahasiswa`:
+Kelas `Mahasiswa` menyimpan NIM, nama, dan tiga nilai (tugas, UTS, UAS). Aturan yang harus dijaga:
 
-1. NIM tidak boleh kosong dan tidak berubah setelah objek dibuat.
-2. Setiap nilai harus berada pada rentang 0–100.
+1. NIM tidak boleh kosong dan tidak berubah setelah objek jadi.
+2. Setiap nilai harus berada di antara 0 dan 100.
 3. Nilai akhir = 30% tugas + 30% UTS + 40% UAS.
-4. Huruf mutu: ≥ 80 = A, ≥ 70 = B, ≥ 60 = C, ≥ 50 = D, selain itu E.
+4. Huruf mutu: ≥ 80 A, ≥ 70 B, ≥ 60 C, ≥ 50 D, selain itu E.
 
 ---
 
 ## 2. Implementasi Java
-**Kode awal:** [Mahasiswa.java (sebelum)](https://github.com/MuzakiArifin23/pbo-a-MuzakiArifin-25051/blob/main/codingan%20sebelum%20dibenerin/pertemuan02/Mahasiswa.java)
-**Kode akhir:** [Mahasiswa.java (sesudah)](https://github.com/MuzakiArifin23/pbo-a-MuzakiArifin-25051/blob/main/pbo-a-MuzakiArifin25051/Pert02/java/Mahasiswa.java)
 
-Kondisi awal: kelas belum punya perhitungan nilai dan menerima data apa saja tanpa pengecekan.
+**Kode awal:** [Mahasiswa.java (sebelum)](../../codingansebelum/pertemuan02/Mahasiswa.java)
+**Kode akhir:** [Mahasiswa.java (sesudah)](java/Mahasiswa.java)
+
+Kondisi awal: nilai akhir selalu `0.00`, mutu `?`, dan data salah tetap diterima.
 
 Yang saya kerjakan:
 
-- `nim` dan `nama` dideklarasikan `private final`, serta tidak dibuat `setNim()`, sehingga identitas mahasiswa tidak bisa diubah dari luar.
-- Bobot disimpan sebagai konstanta `BOBOT_TUGAS`, `BOBOT_UTS`, dan `BOBOT_UAS` supaya tidak ada angka bobot yang tertulis langsung di dalam method.
-- Constructor menolak NIM `null` atau kosong (`isBlank()`) dengan `IllegalArgumentException`.
-- Validasi rentang nilai dipusatkan di method privat `pastikanNilaiSah()`, dipanggil untuk tugas, UTS, dan UAS, sehingga tidak ada kode yang berulang.
-- `nilaiAkhir()` menjumlahkan nilai yang sudah dikalikan bobot, lalu `hurufMutu()` memetakan hasilnya ke A–E dengan rangkaian `if`.
+- Menjadikan `nim` dan `nama` sebagai `private final` tanpa `setNim()`, sehingga identitas tidak bisa diganti.
+- Menaruh bobot di konstanta `BOBOT_TUGAS`, `BOBOT_UTS`, `BOBOT_UAS`, bukan angka langsung di method.
+- Menolak NIM `null` atau kosong di constructor dengan `IllegalArgumentException`.
+- Memusatkan cek rentang nilai di method privat `pastikanNilaiSah()` yang dipanggil untuk ketiga nilai.
+- Menghitung `nilaiAkhir()` dari nilai dikali bobot, lalu `hurufMutu()` memetakannya ke A sampai E dengan `if`.
 
 ---
 
 ## 3. Implementasi PHP
 
-**Kode awal:** [Mahasiswa.php (sebelum)](https://github.com/MuzakiArifin23/pbo-a-MuzakiArifin-25051/blob/main/codingan%20sebelum%20dibenerin/pertemuan02/main.php)
-**Kode akhir:** [Mahasiswa.php (sesudah)](https://github.com/MuzakiArifin23/pbo-a-MuzakiArifin-25051/blob/main/pbo-a-MuzakiArifin-25051/Pert02/java/Main.java)
+**Kode awal:** [Mahasiswa.php (sebelum)](../../codingansebelum/pertemuan02/Mahasiswa.php)
+**Kode akhir:** [Mahasiswa.php (sesudah)](php/Mahasiswa.php)
 
-Logikanya sama dengan versi Java, hanya dengan sintaks PHP:
+Logikanya sama dengan Java, hanya sintaksnya yang berbeda:
 
-- Constructor property promotion dipakai, dengan `readonly` pada `$nim` dan `$nama` sebagai padanan `final` di Java.
-- NIM dicek setelah `trim()`; bila kosong, dilempar `InvalidArgumentException`.
-- `pastikanNilaiSah()` memeriksa batas 0–100 untuk tiap komponen nilai.
-- `nilaiAkhir()` memakai konstanta bobot, dan `hurufMutu()` memakai ekspresi `match (true)`.
+- Memakai constructor property promotion, dengan `readonly` pada `$nim` dan `$nama` sebagai padanan `final`.
+- Memeriksa NIM setelah `trim()` dan melempar `InvalidArgumentException` bila kosong.
+- Memakai `pastikanNilaiSah()` untuk batas 0 sampai 100.
+- Memakai `match (true)` pada `hurufMutu()`.
 
 ---
 
@@ -56,38 +57,37 @@ Logikanya sama dengan versi Java, hanya dengan sintaks PHP:
 
 Sebelum perbaikan:
 
-<img width="556" height="146" alt="sebelum java pert2" src="https://github.com/user-attachments/assets/8444cafb-a151-4341-909a-4bfe6e158f55" />
-
+![Java sebelum](<../../SSAN - sebelum/images-java/Pertemuan2.png>)
 
 Sesudah perbaikan (`java Main`):
 
-
-<img width="556" height="146" alt="sesudah java pert2" src="https://github.com/user-attachments/assets/cc5e0e35-542e-4186-9af8-dc5daa5ed341" />
-
+![Java sesudah](<../../SSAN - sesudah/images-java/Pertemuan2.png>)
 
 ### PHP
 
 Sebelum perbaikan:
 
-<img width="450" height="153" alt="sebelum php pert2" src="https://github.com/user-attachments/assets/d75e41ee-487b-422f-b12e-20d9b4c291b8" />
-
+![PHP sebelum](<../../SSAN - sebelum/images-php/Pertemuan2.png>)
 
 Sesudah perbaikan (`php main.php`):
 
+![PHP sesudah](<../../SSAN - sesudah/images-php/Pertemuan2.png>)
 
-<img width="450" height="153" alt="sesudah php pert2" src="https://github.com/user-attachments/assets/a1612e88-2fb7-40fa-8584-c2de23dbd0f4" />
+Teks keluaran sesudah perbaikan (Java):
 
-
-
-
+```
+=== Rekap Nilai ===
+  2024001    Ani Lestari        akhir= 84.90  mutu=A
+  2024002    Budi Santoso       akhir= 59.30  mutu=D
+  2024003    Citra Wijaya       akhir= 92.00  mutu=A
 
 === Objek menolak data yang melanggar aturan ===
-  Ditolak: Nilai tugas harus di rentang 0-100, diberikan: 150
-  Ditolak: NIM tidak boleh kosong
+  Ditolak: Nilai tugas harus di rentang 0.0-100.0, diberikan: 150.0
+  Ditolak: NIM tidak boleh kosong atau null
 ```
 
 ---
 
 ## 5. Kesimpulan
 
-Dengan enkapsulasi, aturan data dijaga oleh kelas itu sendiri: objek `Mahasiswa` yang tidak sah (nilai 150 atau NIM kosong) tidak akan pernah terbentuk. Setelah perbaikan, program Java maupun PHP menampilkan nilai akhir dan huruf mutu dengan benar, serta menolak kedua data tidak valid pada program uji.
+Aturan data kini dijaga oleh kelas `Mahasiswa` sendiri, sehingga objek dengan nilai 150 atau NIM kosong tidak pernah terbentuk. Java dan PHP sama-sama menghasilkan nilai akhir dan mutu yang benar.
