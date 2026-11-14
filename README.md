@@ -13,7 +13,8 @@ Prak PBO/
 │   ├── pertemuan02 … pertemuan06
 │   ├── perrtemuan7         (nama folder memang tertulis dengan dua "r")
 │   ├── pertemuan9
-│   └── pertemuan10
+│   ├── pertemuan10
+│   └── pertemuan11
 ├── PrakPBO/                hasil pengerjaan saya (kondisi SESUDAH)
 │   ├── Prak 01/            laporan Git dan GitHub (.docx)
 │   ├── pert 02/            java/  php/
@@ -23,20 +24,23 @@ Prak PBO/
 │   ├── Prak 06/            java/  php/
 │   ├── Prak 07/            src/java  src/php  src/uml
 │   ├── Prak 09/            java/ (Maven)  php/ (Composer)
-│   └── Prak 10/            java/ (Maven)  php/ (Composer)
-├── SSAN - sebelum/         images-java/  images-php/  (Pertemuan2 … Pertemuan10)
-└── SSAN - sesudah/         images-java/  images-php/  (Pertemuan2 … Pertemuan10)
+│   ├── Prak 10/            java/ (Maven)  php/ (Composer)
+│   └── Prak 11/            src/starter/java  src/starter/php
+├── SSAN - sebelum/         images-java/  images-php/  (Pertemuan2 … Pertemuan11)
+└── SSAN - sesudah/         images-java/  images-php/  (Pertemuan2 … Pertemuan11)
 ```
 
 Catatan:
 - Folder `Prak 04` dan `Prak 07` memakai `src/java` dan `src/php`, sedangkan
   `Prak 09` dan `Prak 10` memakai `java/` dan `php/` dengan struktur Maven dan
-  Composer. Sisanya langsung `java/` dan `php/`.
+  Composer. `Prak 11` berisi berkas kerangka di `src/starter/java` dan
+  `src/starter/php`. Sisanya langsung `java/` dan `php/`.
 - Nama folder mengandung spasi, jadi apit path dengan tanda kutip di terminal.
 - Pertemuan 8 adalah ujian tengah semester (live coding), jadi tidak ada
   folder kode untuk pertemuan itu.
 - Screenshot yang punya dua gambar dinamai `(1)` untuk kode dan `(2)` untuk
-  hasil eksekusi. Pertemuan 9 dan 10 versi Java hanya berisi gambar kode
+  hasil eksekusi. Pertemuan 11 memakai `(1)` untuk kelas utama dan `(2)` untuk
+  kelas pengujiannya. Pertemuan 9 dan 10 versi Java hanya berisi gambar kode
   (lihat bagian 4).
 
 ---
@@ -47,6 +51,8 @@ Catatan:
 - Apache Maven 3.9+ (untuk Prak 09 dan 10)
 - PHP 8.3
 - Composer (untuk Prak 09 dan 10, jalankan `composer install` di folder `php/`)
+- JUnit 5 untuk Java dan PHPUnit untuk PHP (khusus Prak 11, lihat bagian
+  Pertemuan 11)
 - Windows CMD: jalankan `chcp 65001` lebih dulu agar karakter khusus tampil benar.
 
 ---
@@ -180,6 +186,45 @@ Sebelum (`codingansebelum/pertemuan10`): `LibraryServiceKotor` dengan
 Sesudah (`PrakPBO/Prak 10`): `pinjam()` direfaktor memakai guard clause dan
 melempar exception domain. Rincian ada di `PrakPBO/Prak 10/README.md`.
 
+### Pertemuan 11: Collections, Generics, dan Unit Test Pertama
+
+Sebelum (`codingansebelum/pertemuan11`): kerangka dengan bagian `TODO` yang
+masih kosong.
+- Java: `Repository<T>` belum berfungsi (`simpan()` tidak menyimpan apa pun,
+  `cariById()` selalu `Optional.empty()`, `cariSemua()` selalu kosong,
+  `hapus()` selalu `false`). Semua uji di `RepositoryTest` masih berisi
+  `fail("TODO ... belum dikerjakan")`.
+- PHP: `KoleksiBuku` belum berfungsi (`cariByIsbn()` selalu `null`, `filter()`
+  mengembalikan koleksi kosong, `map()` kosong, `jumlahkan()` selalu `0.0`).
+  Semua uji di `KoleksiBukuTest` masih memanggil `$this->fail(...)`.
+
+Sesudah (`PrakPBO/Prak 11/src/starter`):
+- Java: `Repository<T>` menyimpan data di `LinkedHashMap` dengan kunci dari
+  fungsi `pengambilKunci`. `cariById()` mengembalikan `Optional.ofNullable(...)`
+  agar tidak pernah `null`, `cariSemua()` mengembalikan `List.copyOf(...)`
+  sehingga koleksi internal tidak bocor, dan `hapus()` bernilai `true` bila ada
+  yang terhapus. `RepositoryTest` berisi 8 uji JUnit 5 (5 uji dari soal, 3 uji
+  tambahan: kunci sama menimpa, hapus id yang tidak ada, dan urutan terjaga).
+- PHP: `KoleksiBuku` memakai typed collection dengan `simpan()`,
+  `cariByIsbn(): ?Buku`, `filter()` (`array_filter` + `array_values`),
+  `map()`, `jumlahkan()` (`array_reduce`), dan `kelompokkan()`.
+  `KoleksiBukuTest` berisi 10 uji PHPUnit (5 uji dari soal, 5 uji tambahan:
+  larik berindeks urut, ISBN sama menimpa, filter tanpa indeks berlubang,
+  pengelompokan berdasarkan penulis, dan iterasi dengan `foreach`).
+
+Folder ini berisi berkas kerangka, bukan proyek Maven atau Composer utuh.
+Untuk menjalankan ujinya:
+```bash
+# Java: tambahkan dependensi JUnit 5 dari pom-tambahan.xml ke pom.xml,
+# letakkan Repository.java di src/main/java dan RepositoryTest.java
+# di src/test/java pada package id.ac.univpancasila.perpustakaan, lalu:
+mvn test
+
+# PHP: di proyek Composer, pasang PHPUnit dan petakan autoload-dev, lalu:
+composer require --dev phpunit/phpunit
+./vendor/bin/phpunit tests
+```
+
 ---
 
 ## 4. Daftar Screenshot
@@ -191,6 +236,9 @@ melempar exception domain. Rincian ada di `PrakPBO/Prak 10/README.md`.
 | 07 | kode dan hasil (sebelum), kode (sesudah) | kode dan hasil |
 | 09 | kode | kode dan hasil |
 | 10 | kode | kode |
+| 11 | `(1)` Repository, `(2)` RepositoryTest (sebelum dan sesudah) | `(1)` KoleksiBuku, `(2)` KoleksiBukuTest (sebelum dan sesudah) |
 
 Pertemuan 9 dan 10 versi Java hanya berisi kode karena butuh Maven dan
-pustaka eksternal, sedangkan Pertemuan 10 berupa menu interaktif.
+pustaka eksternal, sedangkan Pertemuan 10 berupa menu interaktif. Pertemuan 11
+hanya berisi gambar kode karena inti latihannya ada pada kelas dan uji
+yang dikerjakan.
