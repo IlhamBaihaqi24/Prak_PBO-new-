@@ -1,8 +1,8 @@
 # PRAKTIKUM PERTEMUAN 11
 ## Collections, Generics, dan Unit Test Pertama
 
-**Nama:** Muzaki Arifin  
-**NPM:** 4525210051  
+**Nama:** Ilham Baihaqi
+**NPM:** 4525210029
 **Kelas:** PBO A 2026/2027  
 **Dosen Pengampu:** Adi Wahyu Pribadi, S.Si., M.Kom
 
