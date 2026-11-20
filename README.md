@@ -11,7 +11,7 @@
 Prak PBO/
 ├── codingansebelum/        kode awal (kondisi SEBELUM dikerjakan)
 │   ├── pertemuan02 … pertemuan06
-│   ├── perrtemuan7         (nama folder memang tertulis dengan dua "r")
+│   ├── pertemuan7         
 │   ├── pertemuan9
 │   ├── pertemuan10
 │   └── pertemuan11
@@ -25,22 +25,26 @@ Prak PBO/
 │   ├── Prak 07/            src/java  src/php  src/uml
 │   ├── Prak 09/            java/ (Maven)  php/ (Composer)
 │   ├── Prak 10/            java/ (Maven)  php/ (Composer)
-│   └── Prak 11/            src/starter/java  src/starter/php
+│   ├── Prak 11/            src/starter/java  src/starter/php
+│   └── Prak 12/            java/ (Maven)  php/ (Composer)  REFACTORING.md
 ├── SSAN - sebelum/         images-java/  images-php/  (Pertemuan2 … Pertemuan11)
-└── SSAN - sesudah/         images-java/  images-php/  (Pertemuan2 … Pertemuan11)
+└── SSAN - sesudah/         images-java/  images-php/  (Pertemuan2 … Pertemuan12)
 ```
 
 Catatan:
 - Folder `Prak 04` dan `Prak 07` memakai `src/java` dan `src/php`, sedangkan
   `Prak 09` dan `Prak 10` memakai `java/` dan `php/` dengan struktur Maven dan
   Composer. `Prak 11` berisi berkas kerangka di `src/starter/java` dan
-  `src/starter/php`. Sisanya langsung `java/` dan `php/`.
+  `src/starter/php`. `Prak 12` ada di
+  `Prak 12/12-refactoring-dengan-solid-dan-repository-pattern/starter/` dengan
+  `java/` (Maven) dan `php/` (Composer). Sisanya langsung `java/` dan `php/`.
 - Nama folder mengandung spasi, jadi apit path dengan tanda kutip di terminal.
 - Pertemuan 8 adalah ujian tengah semester (live coding), jadi tidak ada
   folder kode untuk pertemuan itu.
 - Screenshot yang punya dua gambar dinamai `(1)` untuk kode dan `(2)` untuk
   hasil eksekusi. Pertemuan 11 memakai `(1)` untuk kelas utama dan `(2)` untuk
-  kelas pengujiannya. Pertemuan 9 dan 10 versi Java hanya berisi gambar kode
+  kelas pengujiannya. Pertemuan 12 memakai `(1)` sampai `(7)` karena
+  refactoring menyentuh banyak berkas (lihat bagian 4). Pertemuan 9 dan 10 versi Java hanya berisi gambar kode
   (lihat bagian 4).
 
 ---
@@ -51,8 +55,8 @@ Catatan:
 - Apache Maven 3.9+ (untuk Prak 09 dan 10)
 - PHP 8.3
 - Composer (untuk Prak 09 dan 10, jalankan `composer install` di folder `php/`)
-- JUnit 5 untuk Java dan PHPUnit untuk PHP (khusus Prak 11, lihat bagian
-  Pertemuan 11)
+- JUnit 5 untuk Java dan PHPUnit untuk PHP (Prak 11 dan 12, lihat bagian
+  Pertemuan 11 dan 12)
 - Windows CMD: jalankan `chcp 65001` lebih dulu agar karakter khusus tampil benar.
 
 ---
@@ -225,20 +229,35 @@ composer require --dev phpunit/phpunit
 ./vendor/bin/phpunit tests
 ```
 
----
+### Pertemuan 12: Refactoring dengan SOLID dan Repository Pattern
 
-## 4. Daftar Screenshot
+Sebelum: `LibraryService` dari sesi 10 dan 11 membuat penyimpanannya sendiri
+(`new Repository<>(Buku::getNomorInduk)` di Java dan `new KoleksiBuku()` di
+PHP), sehingga aturan bisnis terikat ke satu implementasi penyimpanan dan tidak
+bisa diuji dengan repository palsu. Aturan denda per jenis anggota juga belum
+dipisah. Tiga temuan pelanggaran SOLID (DIP, OCP, SRP) beserta tabel
+sebelum dan sesudah ada di `REFACTORING.md`.
 
-| Pertemuan | Java | PHP |
-|---|---|---|
-| 02 – 05 | `Pertemuan2` … `Pertemuan5` (sebelum dan sesudah) | sama |
-| 06 | kode dan hasil (sebelum), kode (sesudah) | kode dan hasil |
-| 07 | kode dan hasil (sebelum), kode (sesudah) | kode dan hasil |
-| 09 | kode | kode dan hasil |
-| 10 | kode | kode |
-| 11 | `(1)` Repository, `(2)` RepositoryTest (sebelum dan sesudah) | `(1)` KoleksiBuku, `(2)` KoleksiBukuTest (sebelum dan sesudah) |
+Sesudah (`PrakPBO/Prak 12/12-refactoring-dengan-solid-dan-repository-pattern/starter`):
+- Repository pattern: interface `BookRepository` (`simpan`, `cariByIsbn`,
+  `cariSemua`, `kurangiStok`) dengan implementasi `InMemoryBookRepository`.
+  `LibraryService` menerimanya lewat constructor, jadi tidak ada lagi `new`
+  untuk urusan penyimpanan di dalam service.
+- Strategy pattern: interface `AturanDenda` (`hitung`, `nama`) dengan
+  implementasi `DendaMahasiswa` (Rp1.000/hari), `DendaDosen` (Rp500/hari), dan
+  `DendaBebas` untuk anggota kehormatan (selalu 0). `AturanDendaFactory`
+  memilih aturan berdasarkan jenis anggota. `DendaAlumni` menjadi bukti
+  Open-Closed: jenis keempat ditambahkan tanpa menyunting `LibraryService`.
+- Dependency injection manual: seluruh objek dirakit di titik masuk program
+  (`Main.java` dan `main.php`), yaitu `InMemoryBookRepository` dan `AturanDenda`
+  disuntikkan ke `LibraryService`.
+- Pengujian: `LibraryServiceTest` berisi 3 uji di Java dan 3 uji di PHP, termasuk
+  uji dengan repository palsu yang selalu gagal untuk membuktikan Dependency
+  Inversion. Laporan surefire di `java/target/surefire-reports` mencatat
+  `RepositoryTest` 9 uji dan `LibraryServiceTest` 3 uji, semuanya tanpa gagal.
 
-Pertemuan 9 dan 10 versi Java hanya berisi kode karena butuh Maven dan
-pustaka eksternal, sedangkan Pertemuan 10 berupa menu interaktif. Pertemuan 11
-hanya berisi gambar kode karena inti latihannya ada pada kelas dan uji
-yang dikerjakan.
+```bash
+cd "Prak 12/12-refactoring-dengan-solid-dan-repository-pattern/starter"
+cd java && mvn test
+cd ../php && composer install && ./vendor/bin/phpunit tests && php main.php
+```
