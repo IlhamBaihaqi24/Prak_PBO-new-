@@ -101,71 +101,8 @@ Struktur PHP dibuat sejajar dengan Java:
 
 Berisi tiga temuan pelanggaran SOLID, yaitu DIP, OCP, dan SRP, beserta tabel sebelum dan sesudah refactoring.
 
-## 6. Dokumentasi Praktikum
 
-Berikut dokumentasi kode program yang dikerjakan:
-
-### Java
-
-**LibraryService.java**
-
-![LibraryService Java](screenshots/01-libraryservice-java.png)
-
-**BookRepository.java**
-
-![BookRepository Java](screenshots/02-bookrepository-java.png)
-
-**InMemoryBookRepository.java**
-
-![InMemoryBookRepository Java](screenshots/03-inmemorybookrepository-java.png)
-
-**AturanDenda.java**
-
-![AturanDenda Java](screenshots/04-aturandenda-java.png)
-
-**AturanDendaFactory.java**
-
-![AturanDendaFactory Java](screenshots/05-aturandendafactory-java.png)
-
-**Main.java**
-
-![Main Java](screenshots/06-main-java.png)
-
-**LibraryServiceTest.java**
-
-![LibraryServiceTest Java](screenshots/07-libraryservicetest-java.png)
-
-### PHP
-
-**LibraryService.php**
-
-![LibraryService PHP](screenshots/08-libraryservice-php.png)
-
-**BookRepository.php**
-
-![BookRepository PHP](screenshots/09-bookrepository-php.png)
-
-**InMemoryBookRepository.php**
-
-![InMemoryBookRepository PHP](screenshots/10-inmemorybookrepository-php.png)
-
-**AturanDenda.php**
-
-![AturanDenda PHP](screenshots/11-aturandenda-php.png)
-
-**AturanDendaFactory.php**
-
-![AturanDendaFactory PHP](screenshots/12-aturandendafactory-php.png)
-
-**main.php**
-
-![main PHP](screenshots/13-main-php.png)
-
-**LibraryServiceTest.php**
-
-![LibraryServiceTest PHP](screenshots/14-libraryservicetest-php.png)
-
-## 7. Kesimpulan
+## 6. Kesimpulan
 
 Melalui praktikum pertemuan 12, saya mempelajari cara merefaktor kode agar sesuai dengan prinsip SOLID. Dengan Repository Pattern, penyimpanan data terpisah dari aturan bisnis sehingga penyimpanan dapat diganti tanpa mengubah `LibraryService`.
 
